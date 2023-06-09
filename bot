@@ -1,1 +1,73 @@
+import random
 
+#"+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+karakterler = "+-/*!&$#?=@abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+
+def sifre_olusturucu(parola_uzunlugu):
+    parola = ""
+    for i in range(parola_uzunlugu):
+      rastgele = random.choice(karakterler) 
+      parola += rastgele
+
+    return parola
+
+import discord
+ 
+
+from parola import sifre_olusturucu
+
+# token
+
+token = "MTEwNjk5NTY3NzEyNjQ4MDAxMg.GZFd2d.M9_DhKEA4_ZX5qi-oWqNrXJrFdMXsN94RR-R2E"
+
+ 
+
+# ayricaliklar (intents) değişkeni botun ayrıcalıklarını depolayacak
+
+intents = discord.Intents.default()
+
+# Mesajları okuma ayrıcalığını etkinleştirelim
+
+intents.message_content = True
+
+# istemci (client) değişkeniyle bir bot oluşturalım ve ayrıcalıkları ona aktaralım
+
+client = discord.Client(intents=intents)
+
+ 
+
+@client.event
+
+async def on_ready():
+
+    print(f'We have logged in as {client.user}')
+
+ 
+
+@client.event
+
+async def on_message(message):
+
+    if message.author == client.user:
+
+        return
+
+    if message.content.startswith('merhaba'):
+
+        await message.channel.send("selam")
+
+    elif message.content.startswith('görüşürüz'):
+
+        await message.channel.send("\U0001f642")
+
+    elif message.content.startswith('şifre'):
+
+        await message.channel.send(sifre_olusturucu(10))
+    
+    else:
+
+        await message.channel.send(message.content)
+
+ 
+
+client.run(token)
